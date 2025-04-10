@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kado</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #fef6e4, #fcd5ce);
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .gift-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+    }
+
+    .gift-box {
+      width: 200px;
+      height: 200px;
+      background: #ff69b4;
+      border: 4px solid #d6336c;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.5s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .gift-box.opened {
+      transform: rotateX(100deg);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .gift-ribbon, .gift-bow, .gift-butterfly-bow {
+      position: absolute;
+    }
+
+    .gift-ribbon {
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 40px;
+      background: #fff;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .gift-bow {
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: inset -5px 0 #ff69b4, inset 5px 0 #ff69b4;
+    }
+
+    .gift-butterfly-bow {
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 45px;
+      background: transparent;
+    }
+
+    .gift-butterfly-bow::before,
+    .gift-butterfly-bow::after {
+      content: '';
+      position: absolute;
+      width: 45px;
+      height: 45px;
+      background: #fff;
+      border-radius: 50% 50% 0 50%;
+      transform: rotate(-45deg);
+      box-shadow: inset -5px -5px #ff69b4;
+    }
+
+    .gift-butterfly-bow::after {
+      left: 45px;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(45deg);
+      box-shadow: inset 5px -5px #ff69b4;
+    }
+
+    .gift-label {
+      font-size: 14px;
+      color: #fff;
+      z-index: 1;
+    }
+
+    .cake {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      opacity: 0;
+      transition: all 1s ease;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .cake.show {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+
+    .tier {
+      background-color: #ffe0f0;
+      border: 4px solid #ff69b4;
+      border-radius: 10px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tier1 { width: 200px; height: 60px; }
+    .tier2 { width: 140px; height: 50px; margin-top: -10px; }
+    .tier3 { width: 80px; height: 40px; margin-top: -10px; }
+
+    .sprinkles span {
+      position: absolute;
+      width: 5px;
+      height: 10px;
+      border-radius: 2px;
+      background-color: #f06292;
+      transform: rotate(45deg);
+    }
+
+    .ribbon {
+      width: 100%;
+      height: 10px;
+      background: #f06292;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
+    .cherry {
+      width: 12px;
+      height: 12px;
+      background: red;
+      border-radius: 50%;
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 2px #900;
+    }
+
+    .text {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      color: #d6336c;
+      font-size: 24px;
+      margin-top: 20px;
+      text-shadow: 1px 1px 3px #fff;
+    }
+
+    .candle {
+      width: 10px;
+      height: 30px;
+      background: #fff;
+      border-radius: 2px;
+      margin: 0 auto;
+      position: relative;
+      top: -20px;
+      animation: candleWiggle 2s ease-in-out infinite;
+      transform-origin: bottom center;
+    }
+
+    .flame {
+      width: 10px;
+      height: 15px;
+      background: radial-gradient(circle, yellow 40%, orange 70%, red 100%);
+      border-radius: 50%;
+      position: absolute;
+      top: -15px;
+      left: 0;
+      animation: flameBlink 4s infinite ease-in-out;
+    }
+
+    @keyframes flameBlink {
+      0%, 20% { opacity: 1; transform: scale(1); }
+      25%, 27% { opacity: 0; transform: scale(0); }
+      30%, 100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes candleWiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-2deg); }
+      50% { transform: rotate(2deg); }
+      75% { transform: rotate(-1deg); }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0); }
+    }
+
+    .balloon {
+      position: absolute;
+      width: 40px;
+      height: 50px;
+      border-radius: 50% 50% 45% 45%;
+      animation: float 3s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    .balloon::after {
+      content: "";
+      position: absolute;
+      bottom: -30px;
+      left: 50%;
+      width: 2px;
+      height: 30px;
+      background: #999;
+      transform: translateX(-50%);
+    }
+
+    .confetti {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background-color: red;
+      opacity: 0.8;
+      animation: confettiFall linear infinite;
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(-10px) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(360deg); }
+    }
+
+    .firework {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      animation: explode 1s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes explode {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(5); opacity: 0; }
+    }
+
+    #teddyBears {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px; /* Ini untuk merenggangkan antar boneka */
+  position: fixed;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  padding: 10px 0;
+  z-index: 2;
+}
+
+.teddy {
+  font-size: 30px; /* Bisa disesuaikan ukurannya */
+}
+
+    #teddyBears.hidden {
+      display: none;
+    }
+
+    .teddy {
+      font-size: 60px;
+      margin: 10px;
+      animation: floatBear 4s ease-in-out infinite;
+    }
+
+    @keyframes floatBear {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+    .gift-box {
+    width: 120px;
+    height: 120px;
+    }
+
+    .gift-label {
+    font-size: 12px;
+    }
+
+    .cake {
+    transform: translate(-50%, -50%) scale(0.6);
+    }
+
+    .text {
+    font-size: 18px;
+    }
+
+    .teddy {
+    font-size: 40px;
+    margin: 5px;
+    }
+
+    .balloon {
+    width: 25px;
+    height: 35px;
+    }
+
+    .balloon::after {
+    height: 20px;
+    }
+    }         
+
+  </style>
+</head>
+<body>
+
+  <audio autoplay loop>
+    <source src="musicc.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- Balon -->
+<div class="balloon hidden" style="left: 20%; top: 10%; background: #ff8fa3;"></div>
+<div class="balloon hidden" style="left: 30%; top: 5%; background: #ffc75f;"></div>
+<div class="balloon hidden" style="left: 35%; top: 12%; background: #8ecae6;"></div>
+<div class="balloon hidden" style="left: 40%; top: 8%; background: #b5ead7;"></div>
+<div class="balloon hidden" style="left: 50%; top: 6%; background: #f4a261;"></div>
+<div class="balloon hidden" style="left: 60%; top: 11%; background: #e76f51;"></div>
+<div class="balloon hidden" style="left: 65%; top: 9%; background: #a8dadc;"></div>
+<div class="balloon hidden" style="left: 70%; top: 7%; background: #ffafcc;"></div>
+<div class="balloon hidden" style="left: 75%; top: 13%; background: #cdb4db;"></div>
+<div class="balloon hidden" style="left: 80%; top: 10%; background: #ffd6a5;"></div>
+<div class="balloon hidden" style="left: 25%; top: 14%; background: #9bf6ff;"></div>
+<div class="balloon hidden" style="left: 55%; top: 4%; background: #d0f4de;"></div>
+
+
+  <script>
+    const confettiElements = [];
+    for (let i = 0; i < 100; i++) {
+      const confetti = document.createElement("div");
+      confetti.className = "confetti hidden";
+      confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.animationDuration = (3 + Math.random() * 2) + "s";
+      confetti.style.backgroundColor = ["#ff0", "#f0f", "#0ff", "#f66", "#6f6", "#66f"][Math.floor(Math.random() * 6)];
+      document.body.appendChild(confetti);
+      confettiElements.push(confetti);
+    }
+  </script>
+
+  <div class="gift-wrapper">
+    <div class="gift-box" id="giftBox">
+      <div class="gift-bow"></div>
+      <div class="gift-ribbon"></div>
+      <div class="gift-butterfly-bow"></div>
+      <div class="gift-label">Hitung 1-5 & Klik ini</div>
+    </div>
+  </div>
+
+  <div class="cake" id="cake">
+    <div class="candle"><div class="flame"></div></div>
+    <div class="tier tier3"><div class="cherry"></div><div class="ribbon"></div></div>
+    <div class="tier tier2">
+      <div class="sprinkles">
+        <span style="top:10px; left:20px;"></span>
+        <span style="top:15px; left:50px; background:#ba68c8;"></span>
+        <span style="top:20px; left:90px; background:#ffb74d;"></span>
+      </div>
+      <div class="ribbon"></div>
+    </div>
+    <div class="tier tier1">
+      <div class="sprinkles">
+        <span style="top:10px; left:30px;"></span>
+        <span style="top:20px; left:100px; background:#81c784;"></span>
+        <span style="top:15px; left:150px; background:#4fc3f7;"></span>
+      </div>
+      <div class="ribbon"></div>
+    </div>
+    <div class="text">Selamat Ulang Tahun! </div>
+  </div>
+
+  <div id="teddyBears" class="hidden">
+    <div class="teddy">🧸</div>
+    <div class="teddy">🧸</div>
+    <div class="teddy">🧸</div>
+    <div class="teddy">🧸</div>
+    <div class="teddy">🧸</div>
+    <div class="teddy">🧸</div>
+  </div>
+
+  <script>
+    const giftBox = document.getElementById('giftBox');
+    const cake = document.getElementById('cake');
+
+    giftBox.addEventListener('click', () => {
+      giftBox.classList.add('opened');
+      setTimeout(() => {
+        cake.classList.add('show');
+        triggerFireworks();
+
+        document.querySelectorAll('.balloon').forEach(b => b.classList.remove('hidden'));
+        confettiElements.forEach(c => c.classList.remove('hidden'));
+        document.getElementById("teddyBears").classList.remove("hidden");
+      }, 600);
+    });
+
+    function triggerFireworks() {
+      for (let i = 0; i < 30; i++) {
+        const fw = document.createElement('div');
+        fw.className = 'firework';
+        fw.style.left = (Math.random() * window.innerWidth) + 'px';
+        fw.style.top = (Math.random() * window.innerHeight / 2) + 'px';
+        fw.style.backgroundColor = ["#f00", "#0f0", "#00f", "#ff0", "#0ff", "#f0f"][Math.floor(Math.random() * 6)];
+        document.body.appendChild(fw);
+        setTimeout(() => fw.remove(), 1000);
+      }
+    }
+  </script>
+
+</body>
+</html>

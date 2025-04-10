@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kalender</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: #f8f0f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .calendar {
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      width: 320px;
+      text-align: center;
+      border: 3px double #d2a3b0;
+    }
+    .calendar h2 {
+      margin-bottom: 5px;
+    }
+    .calendar .year {
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    .day-names {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #d95f9f;
+    }
+    .days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+    }
+    .day {
+      padding: 10px;
+      border-radius: 50%;
+      background: #f3f3f3;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .day:hover {
+      background: #f9c2d1;
+    }
+    .day.special {
+      background: #ffbad5;
+      border: 2px solid hotpink;
+      font-weight: bold;
+      color: #000;
+    }
+    .note {
+      margin-top: 15px;
+      color: #d95f9f;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calendar">
+  <h2>April</h2>
+  <div class="year">2025</div>
+
+  <!-- Nama-nama hari -->
+  <div class="day-names">
+    <div>Min</div>
+    <div>Sen</div>
+    <div>Sel</div>
+    <div>Rab</div>
+    <div>Kam</div>
+    <div>Jum</div>
+    <div>Sab</div>
+  </div>
+
+  <!-- Tanggal -->
+  <div class="days">
+    <!-- 1 April 2025 adalah Selasa -->
+    <div></div><div></div>
+    <div class="day">1</div>
+    <div class="day">2</div>
+    <div class="day">3</div>
+    <div class="day">4</div>
+    <div class="day">5</div>
+    <div class="day">6</div>
+    <div class="day">7</div>
+    <div class="day">8</div>
+    <div class="day">9</div>
+    <div class="day">10</div>
+    <div class="day">11</div>
+    <div class="day special" onclick="showGift()">12</div>
+    <div class="day">13</div>
+    <div class="day">14</div>
+    <div class="day">15</div>
+    <div class="day">16</div>
+    <div class="day">17</div>
+    <div class="day">18</div>
+    <div class="day">19</div>
+    <div class="day">20</div>
+    <div class="day">21</div>
+    <div class="day">22</div>
+    <div class="day">23</div>
+    <div class="day">24</div>
+    <div class="day">25</div>
+    <div class="day">26</div>
+    <div class="day">27</div>
+    <div class="day">28</div>
+    <div class="day">29</div>
+    <div class="day">30</div>
+  </div>
+
+  <div class="note">Klik tanggalnya!!</div>
+</div>
+
+<script>
+  function showGift() {
+    // Menampilkan pesan terlebih dahulu
+    alert("Selamat Ulang Tahun! Yuk lihat hadiahnya!");
+
+    // Pindah ke halaman kartu-ultah.html (pastikan file ini ada di folder yang sama)
+    window.location.href = "surat.html";
+  }
+</script>
+
+</body>
+</html>
